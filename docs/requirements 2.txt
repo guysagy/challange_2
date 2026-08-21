@@ -1,0 +1,15 @@
+
+ API Docs: https://developers.thecatapi.com/view-account/ylX4blBYT9FaoVd6OhvR?report=bOoHBz-8t
+
+ STEP ONE: Make an API call (https://api.thecatapi.com/v1/images/search?limit=10&page=1) to this endpoint and get
+ the information and display the images on the page 4 in a row
+
+ STEP TWO: Make a call to (https://api.thecatapi.com/v1/images/${id}) to get information
+ on the breed if it exisit. Under the image print the name, description, and weight
+
+ STEP THREE: Update the layout and check if a wikipedia_url exisit, and if it does
+ add an action that will open up the page in a new tab when clicking on the 
+ entire card
+
+ STEP FOUR: Updated the layout so it is mobile responsive and goes from
+ 4 in a row to 1 per row when on a mob ile device
