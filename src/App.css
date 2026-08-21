@@ -1,4 +1,8 @@
 .app-container {
-  min-height: 100vh;
-  background-color: yellow;
+min-height: 100vh;
+background-color: yellow;
+display: flex;
+flex-direction: row;
+justify-content: center;
+align-items: center;
 }

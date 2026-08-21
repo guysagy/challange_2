@@ -1,13 +1,25 @@
 .cats-images-container {
-    margin: 5px;
-    border: 2px solid gray;
-    padding: 10px;
-    box-sizing: border-box;
-    background-color: white;
-    width: calc(100% - 10px);
-    min-height: calc(100vh - 10px);
+    /* box-sizing: border-box; */
+    background-color: blue;
     display: flex;
     flex-direction: row;
-    justify-content: center;
-    align-items: center;
+    /* justify-content: center; */
+    /* align-items: center; */
+    flex-wrap: wrap;
+    width: 1030px;
+    padding: 0;
+    border: 0;
+    /* margin: 10px; */
+    gap: 10px;
+
+    .cat-image-container {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        min-width: 250px;
+        min-height: 250px;
+        background-color: red;
+    }
 }
+
+
