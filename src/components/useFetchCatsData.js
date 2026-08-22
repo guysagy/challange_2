@@ -29,48 +29,52 @@ function useFetchCatsData() {
                     throw new Error(`Failed to fetch cats data; http error: ${response.status}`)
                 }
 
-                const data = await response.json();
+                let data = await response.json();
 
                 // const breedPromises = []
 
                 const breedPromises = data.map(item => {
-                    let breedData = {};
                     const url = `${CAT_BREED_DATA}/${item.id}`;
                     return fetch(url, {
-                        signal: controller.signal,
-                    }).then(response => {
-                        if (response.ok) {
-                            return response.json();
-                        } else {
-                            throw new Error('Fetching breed data for ' + item.id + ' failed with http status ' + response.status);
-                        }
-                    }).then((json) => {
-                        breedData = json.breeds[0];
-                    }).catch(error => {
-                        console.error(error);
-                    }).finally(() => {
-                        item.breed = breedData;
-                        accept();
-                    });
+                            signal: controller.signal,
+                        }).then(response => {
+                            if (response.ok) {
+                                return response.json();
+                            } else {
+                                throw new Error('Fetching breed data for ' + item.id + ' failed with http status ' + response.status);
+                            }
+                        }).then((json) => ({
+                            ...item,
+                            breed: json.breeds?.[0] || null
+                        })).catch(error => {
+                            if (!controller.signal.aborted) {
+                                console.error(error.message);
+                                return {
+                                    ...item,
+                                    breed: null
+                                };
+                            }
+                        });
                 })
 
-                await Promise.allSettled(breedPromises);
+                data = await Promise.all(breedPromises);
 
-                setState((prev) => ({
-                    ...prev, 
-                    isLoading: false,
-                    data: data
-                }));
+                if (!controller.signal.aborted) {
+                    setState((prev) => ({
+                        ...prev, 
+                        isLoading: false,
+                        data: data
+                    }));
+                }
 
             } catch(error) {
-                if (controller.signal.aborted) {
-                    return;
+                if (!controller.signal.aborted) {
+                    setState((prev) => ({
+                        ...prev, 
+                        isLoading: false,
+                        error: error.message
+                    }));
                 }
-                setState((prev) => ({
-                    ...prev, 
-                    isLoading: false,
-                    error: error
-                }));
             } 
         }
 

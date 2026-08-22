@@ -7,16 +7,29 @@ function CatImage(props) {
     const widthRatio = maxSize/width;
     const heightRatio = maxSize/height;
     const ratio = Math.min(widthRatio, heightRatio);
+
+    const catContent =  (
+        <figure className="cat-figure">
+            <img src={url} width={width*ratio} height={height*ratio} alt={breed?.name}/>
+            <figcaption className='cat-description'>
+                {breed?.name} {breed?.description}
+            </figcaption>
+        </figure>
+    );
+
+    if (!breed?.wikipedia_url) {
+        return (
+            <div className='cat-image-container'>
+                {catContent}
+            </div>
+        )
+    }
+
     return (
         <div className='cat-image-container'>
-            <figure className="cat-figure">
-                <img src={url} width={width*ratio} height={height*ratio} alt={breed?.name}/>
-                <figcaption className='cat-description'>
-                    <a target="_blank" href={breed?.wikipedia_url}>
-                        {breed?.name} {breed?.description}
-                    </a>
-                </figcaption>
-            </figure>
+            <a target="_blank" rel="noreferrer" href={breed.wikipedia_url}>
+                {catContent}
+            </a>
         </div>
     )
 }
