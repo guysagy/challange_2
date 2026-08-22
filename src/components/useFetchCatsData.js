@@ -36,26 +36,26 @@ function useFetchCatsData() {
                 const breedPromises = data.map(item => {
                     const url = `${CAT_BREED_DATA}/${item.id}`;
                     return fetch(url, {
-                            signal: controller.signal,
-                        }).then(response => {
-                            if (response.ok) {
-                                return response.json();
-                            } else {
-                                throw new Error('Fetching breed data for ' + item.id + ' failed with http status ' + response.status);
-                            }
-                        }).then((json) => ({
-                            ...item,
-                            breed: json.breeds?.[0] || null
-                        })).catch(error => {
-                            if (!controller.signal.aborted) {
-                                console.error(error.message);
-                                return {
-                                    ...item,
-                                    breed: null
-                                };
-                            }
-                        });
-                })
+                                signal: controller.signal,
+                            }).then(response => {
+                                if (response.ok) {
+                                    return response.json();
+                                } else {
+                                    throw new Error('Fetching breed data for ' + item.id + ' failed with http status ' + response.status);
+                                }
+                            }).then((json) => ({
+                                ...item,
+                                breed: json.breeds?.[0] || null
+                            })).catch(error => {
+                                if (!controller.signal.aborted) {
+                                    console.error(error.message);
+                                    return {
+                                        ...item,
+                                        breed: null
+                                    };
+                                }
+                            });
+                });
 
                 data = await Promise.all(breedPromises);
 
