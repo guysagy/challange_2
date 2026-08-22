@@ -3,14 +3,22 @@ import useFetchCatsData from './useFetchCatsData';
 import './CatsImages.css';
 
 function CatImage(props) {
-    let {id, url, width, height} = props.data;
+    let {id, url, width, height, breed} = props.data;
     const maxSize = 200; // pixels
     const widthRatio = maxSize/width;
     const heightRatio = maxSize/height;
     const ratio = Math.min(widthRatio, heightRatio);
+    const wikipedia_url = 'https://www.cnn.com';
     return (
         <div className='cat-image-container'>
-            <img src={url} width={width*ratio} height={height*ratio} alt=''/>
+            <figure className="cat-figure">
+                <img src={url} width={width*ratio} height={height*ratio} alt={breed?.name}/>
+                <figcaption className='cat-description'>
+                    <a target="_blank" href={breed?.wikipedia_url}>
+                        {breed?.name} {breed?.description}
+                    </a>
+                </figcaption>
+            </figure>
         </div>
     )
 }

@@ -44,12 +44,14 @@ function useFetchCatsData() {
                         }).then(response => {
                             if (response.ok) {
                                 return response.json();
+                            } else {
+                                throw new Error('Fetching breed data for ' + item.id + ' failed with http status ' + response.status);
                             }
                         }).then((json) => {
                             breedData = json.breeds[0];
                             // console.log('breedData  = ', breedData);
                         }).catch(error => {
-
+                            console.error(error);
                         }).finally(() => {
                             item.breed = breedData;
                             accept();
