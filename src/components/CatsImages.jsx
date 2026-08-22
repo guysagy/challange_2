@@ -1,14 +1,12 @@
-import React , { useEffect, useState } from 'react';
 import useFetchCatsData from './useFetchCatsData';
 import './CatsImages.css';
 
 function CatImage(props) {
-    let {id, url, width, height, breed} = props.data;
+    let {url, width, height, breed} = props.data;
     const maxSize = 200; // pixels
     const widthRatio = maxSize/width;
     const heightRatio = maxSize/height;
     const ratio = Math.min(widthRatio, heightRatio);
-    const wikipedia_url = 'https://www.cnn.com';
     return (
         <div className='cat-image-container'>
             <figure className="cat-figure">
@@ -27,7 +25,7 @@ function CatsImages() {
     const state = useFetchCatsData();
     console.log('state = ', state);
 
-    let contents = "";
+    let contents;
     if (state.error) {
         contents = state.error
     } else if (state.isLoading) {

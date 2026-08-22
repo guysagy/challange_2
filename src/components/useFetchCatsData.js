@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 
 const CATS_IMAGES_URL = "https://api.thecatapi.com/v1/images/search?limit=10&page=1";
 const CAT_BREED_DATA = "https://api.thecatapi.com/v1/images"; // ${id}"
@@ -31,14 +31,13 @@ function useFetchCatsData() {
 
                 const data = await response.json();
 
-                const breedPromises = []
+                // const breedPromises = []
 
-                data.map(item => {
+                const breedPromises = data.map(item => {
                     const promise = new Promise((accept) => {
                         let breedData = {};
 
                         const url = `${CAT_BREED_DATA}/${item.id}`;
-                        // console.log('breed url  = ', url);
                         fetch(url, {
                             signal: controller.signal,
                         }).then(response => {
@@ -49,7 +48,6 @@ function useFetchCatsData() {
                             }
                         }).then((json) => {
                             breedData = json.breeds[0];
-                            // console.log('breedData  = ', breedData);
                         }).catch(error => {
                             console.error(error);
                         }).finally(() => {
@@ -57,7 +55,7 @@ function useFetchCatsData() {
                             accept();
                         });
                     });
-                    breedPromises.push(promise);
+                    return promise;
                 })
 
                 await Promise.allSettled(breedPromises);
